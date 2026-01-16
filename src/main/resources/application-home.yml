@@ -1,0 +1,13 @@
+---
+spring:
+  jpa:
+    show-sql: false
+    open-in-view: false
+    properties:
+      hibernate:
+        ddl-auto: update
+        # Hibernate ddl auto (create, create-drop, validate, update)
+        jdbc:
+          batch_size: 100
+  datasource:
+    url: jdbc:postgresql://prod-db.lavacro.net:5432/songs?reWriteBatchedInserts=true

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en-US" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Song statistics</title>
+	<link rel="stylesheet" type="text/css" th:href="@{./css/format.css}">
+	<style>
+		td, select {
+	        font-size: 12px;
+	        font-family: 'Open Sans', sans-serif;
+			font-weight: 400;
+	        padding: 2px !important;
+	        border-bottom: 1px solid #c0c0c0;
+		}
+
+		tr:nth-child(odd) td {
+	        background-color: #f2f2f2;
+		}
+
+		tr:nth-child(even) td {
+	        background-color: #ffffff;
+		}
+
+		th {
+	        background-color: #e0e0f0;
+	        padding: 2px;
+	        font-size: 13px;
+		}
+
+		body {
+			background-color: #FFFFFF;
+		}
+
+		table {
+			padding: 2px;
+			border-spacing: 0;
+		}
+</style>
+
+	<script type="module">
+		const songStatsJS = './js/songStats.js';
+		const { default: SongStats } = await import(songStatsJS);
+		window.songStats = new SongStats();
+	</script>
+
+</head>
+<body>
+
+<a href=".">main</a><br/><br/>
+
+<label for="services"></label><select id="services" onchange="songStats.redir(this)"></select>
+<br/><br/>
+
+<table>
+	<caption style="display: none">song stats</caption>
+	<tr>
+		<th scope="col">Song</th>
+		<th scope="col">Author</th>
+		<th scope="col" class="right">Qty</th>
+	</tr>
+	<tr th:each="stat:${stats}">
+		<td th:text="${stat.songname}"></td>
+		<td th:text="${stat.author}"></td>
+		<td class="right" th:text="${stat.qty}"></td>
+	</tr>
+</table>
+</body>
+</html>

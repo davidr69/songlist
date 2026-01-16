@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en-US" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Calendar</title>
+	<link rel="stylesheet" type="text/css" th:href="@{./css/format.css}">
+	<script type="text/javascript" th:src="./js/code.js"></script>
+	<script type="module" th:src="./js/imports.js"></script>
+	<script type="text/javascript" th:src="./js/make_list.js"></script>
+	<script type="text/javascript">
+		window.onload = function() {
+//common.observers['allSongsLoaded'] = newselect;
+			makelist.get_selected_songs();
+//    makelist.get_all_songs();
+			window.songTable = new SongTable('dynaTable'); // define it as a global variable
+			let newRow = songTable.newRow();
+			songTable.editRow(newRow);
+		};
+	</script>
+</head>
+<body style="background-color: #FFFFFF">
+
+<a href="calendar">Return</a> to calendar<br /><br />
+
+Song list for <th:span th:text="${service.formattedDate} + '; ' + ${service.service}"></th:span><br /><br />
+
+Worship leader:
+<select id="worshipLeader" name="worshipLeader" onChange="makelist.get_singer_songs()">
+  <option selected="true" disabled="disabled">Select a worship leader</option>
+  <option th:each="leader:${leaders}" th:value="${leader.id}" th:text="${leader.name}"></option>
+</select><br/><br/>
+
+<datalist id="songlistDD"></datalist>
+
+<div id="dynaTable"></div>
+
+<input type="hidden" id="serviceId" name="serviceId" th:value="${service.id}"/>
+<input type="hidden" id="serviceType" name="serviceType" th:value="${serviceType}"/>
+<input type="hidden" id="month" th:value="${month}"/>
+<input type="hidden" id="day" th:value="${day}"/>
+<input type="hidden" id="year" th:value="${year}"/>
+
+<a href="javascript:makelist.print();">Printable</a> version<br/><br/>
+
+</body>
+</html>

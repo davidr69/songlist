@@ -1,0 +1,24 @@
+server:
+  session:
+    timeout: 300
+  port: 8444
+
+management:
+    endpoints:
+        web:
+            exposure:
+                include: health
+        health:
+            enabled: true
+
+spring:
+  datasource:
+    username: ${database.user}
+    password: ${database.password}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      pool-name: SonglistCP
+      connection-test-query: SELECT 1
+      minimum-idle: 3
+      maximum-pool-size: 10
+      idle-timeout: 10000

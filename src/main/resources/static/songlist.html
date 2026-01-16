@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+	<title>Song List</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="css/format.css" type="text/css">
+	<link rel="stylesheet" href="css/songlist.css" type="text/css">
+	<script type="text/javascript" src="js/common.js"></script>
+
+	<script type="module">
+		const songListJS = './js/songlist.js';
+		const { default: SongList } = await import(songListJS);
+		window.songList = new SongList();
+	</script>
+
+</head>
+<body>
+
+<a href=".">main</a><br/><br/>
+
+Language: <label for="languages"></label><select id="languages" onchange="songList.changeLanguage(this)"><option value="*">all</option></select>
+<br/><br/>
+<div id="content"></div>
+
+</body>
+</html>

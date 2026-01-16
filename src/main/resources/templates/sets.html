@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en-US" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title th:text="'Song sets for ' + ${service.description}"></title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" type="text/css" th:href="@{./fontawesome-6.7.2/css/fontawesome.min.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{./fontawesome-6.7.2/css/brands.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{./fontawesome-6.7.2/css/solid.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{./css/format.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{./css/songSets.css}">
+
+	<script type="module">
+		const songSetsJS = './js/songSets.js';
+		const { default: SongSets } = await import(songSetsJS);
+		window.songsets = new SongSets();
+	</script>
+
+</head>
+<body>
+
+<a href="." style="font-weight: 400">main</a><br/><br/>
+
+Service:
+<select id="selectService" onchange="songsets.redir();">
+	<option value="none" disabled="disabled">Select a service</option>
+	<option th:each="svc:${services}" th:value="${svc.id}" th:text="${svc.description}" th:selected="${svc.id} == ${service.id} ? 'selected' : false"></option>
+</select>
+<br/><br/>
+
+Filter by:<br/>
+<div style="display: table;">
+	<div style="display: table-row;">
+		<div style="display: table-cell; width: 50px;">Song:</div>
+		<div style="display: table-cell;">
+			<select id="selectSong" onchange="songsets.redraw()"><option value="0">All</option></select><br/>
+		</div>
+	</div>
+
+	<div style="display: table-row;">
+		<div style="display: table-cell; width: 50px;">Leader:</div>
+		<div style="display: table-cell;">
+			<select id="selectLeader" onchange="songsets.redraw()"><option value="0">All</option></select>
+		</div>
+	</div>
+</div>
+<br/>
+
+<div id="song_sets"></div>
+
+<form>
+	<input type="hidden" id="serviceId" th:value="${service.id}"/>
+</form>
+</body>
+</html>

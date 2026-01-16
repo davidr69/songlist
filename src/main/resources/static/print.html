@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+	<title></title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="css/format.css" type="text/css">
+	<script type="text/javascript" src="js/code.js"></script>
+	<script type="text/javascript" src="js/print.js"></script>
+	<script type="text/javascript">
+		document.addEventListener('DOMContentLoaded', (event) => {
+			print.init();
+		});
+	</script>
+
+</head>
+<body style="display: none;">
+<div style="text-align: center" class="big bold">WORSHIP SONG LIST<br />
+<span id="serviceName"></span><br />
+<span id="serviceDate"></span></div><br /><br />
+
+<div style="padding: 0 10px;">
+<span class="list bold" style="text-decoration: underline;">Worship Leader:</span> <span class="list" id="leader"></span>
+
+<br/><br/>
+
+<table style="width: 100%; border-spacing: 0px; padding: 0px" about="song set" aria-describedby="Set list" id="songSet">
+	<thead>
+		<tr>
+			<th scope="col" style="width: 15%; text-align: left" class="list line_bot">Key</th>
+			<th scope="col" style="width: 70%; text-align: left" class="list line_bot">Song</th>
+			<th scope="col" style="width: 15%; text-align: right" class="list line_bot">Tempo</th>
+		</tr>
+	</thead>
+</table>
+</div>
+
+</body>
+</html>

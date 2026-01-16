@@ -1,0 +1,38 @@
+body {
+    font-family: "Open Sans";
+	font-weight: 400;
+    font-size: 13px;
+}
+
+a, a:visited {
+    text-decoration: none;
+    color: #8080e0;
+	font-weight: 700;
+}
+
+a:hover {
+    text-decoration: none;
+    color: #c08060;
+	font-weight: 700;
+}
+
+.leader {
+	font-weight: 700;
+    font-style: oblique;
+}
+
+.marker {
+	color: #808080;
+}
+
+select {
+    border-radius: 3px;
+    padding:    5px;
+}
+
+.dropdown {
+    border-radius: 3px;
+    padding:    5px;
+    background-color: #e0e0e0;
+    width: auto;
+}

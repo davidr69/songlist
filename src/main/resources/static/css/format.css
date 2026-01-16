@@ -1,0 +1,167 @@
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700,700i");
+@import url('https://fonts.googleapis.com/css2?family=Handlee&display=swap');
+
+.shade {
+	background: #e0f0ff;
+}
+
+.gray {
+	background: #e0e0e0;
+}
+
+a, a:visited {
+	text-decoration: none;
+	color: #4060a0;
+}
+
+a:hover {
+	text-decoration: none;
+	color: #000000;
+}
+
+.big {
+	font-size: 16pt;
+	font-family: 'Open Sans', sans-serif;
+	font-weight: 400;
+}
+
+.list {
+	font-size: 14pt;
+	font-family: 'Open Sans', sans-serif;
+	font-weight: 400;
+	vertical-align: top;
+}
+
+.memo {
+	font-size: 12pt;
+	font-family: 'Open Sans', sans-serif;
+	font-weight: 400;
+/*	font-style: oblique;*/
+	color: #931c5b;
+}
+
+.aka {
+	color: #086600;
+}
+
+.slant {
+	font-style: oblique;
+}
+
+.bold {
+	font-weight: 700;
+}
+
+td,body,input,select {
+	font-size: 11px;
+	font-family: "Open Sans", sans-serif;
+	font-weight: 400;
+}
+
+.exp {
+	background-color: #f0f0ff;
+}
+
+.labels {
+	background-color: #e0e0e0;
+	border-left: 1px solid #c0c0c0;
+	border-bottom: 1px solid #c0c0c0;
+	width: 30px;
+	text-align: center;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 10px;
+	font-weight: 400;
+}
+
+
+.weekend {
+	background-color: #ffe0c0;
+	border-left: 1px solid #c0c0c0;
+	border-bottom: 1px solid #c0c0c0;
+	width: 30px;
+	text-align: right;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 10px;
+	font-weight: 400;
+}
+
+.weekday {
+	background-color: #ffffff;
+	border-left: 1px solid #c0c0c0;
+	border-bottom: 1px solid #c0c0c0;
+	width: 30px;
+	text-align: right;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 10px;
+	font-weight: 400;
+}
+
+.center {
+	text-align: center;
+}
+
+.line_bot {
+	border-bottom: 1px solid #c0c0c0;
+}
+
+.line_right {
+	border-right: 1px solid #c0c0c0;
+}
+
+.fadeday {
+	color: #c0c0c0;
+}
+
+.today {
+	font-weight: 700;
+	background-color: #c0c0f0;
+}
+
+.rollOver {
+	background-color: #80a080;
+	color: #ffffff;
+	width: 30px;
+	text-align: right;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 10px;
+	font-weight: 400;
+	cursor: pointer;
+}
+
+.dropdown_modern {
+	border-top: 0px #ffffff;
+	border-left: 0px #ffffff;
+	border-right: 0px #ffffff;
+	border-bottom: 1px #000000;
+	background: #ffffff;
+}
+
+.fakeBox {
+	border-top: 0px #ffffff;
+	border-left: 0px #ffffff;
+	border-right: 0px #ffffff;
+	border-bottom: 1px #8080ff;
+	background: #ffffff;
+}
+
+.songCell {
+	height: 20px;
+	width: 125px;
+}
+
+.keyCell {
+	width: 25px;
+}
+
+faux:hover {
+	cursor: pointer;
+}
+
+.right {
+	text-align:	right;
+}
+
+.fade {
+	font-family: "Handlee", sans-serif;
+	color: #606060;
+}

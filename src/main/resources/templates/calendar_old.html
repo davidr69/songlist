@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Calendar</title>
+	<link rel="stylesheet" href="css/format.css" type="text/css">
+	<script type="text/javascript" src="js/code.js"></script>
+	<script type="text/javascript" src="js/calendar.js"></script>
+	<script type="text/javascript">
+let mycal;
+
+function begin() {
+	mycal = new Calendar("cal", "when", new Date(), "mycal", "dateblurb");
+	mycal.show_cal();
+
+	let f = document.forms[0];
+	fetch('api/v1/services/active').then(resp => {
+		resp.json().then(data => {
+			let count = 0;
+			for(let item of data) {
+				let theTime = item.time == null ? '' : ` (${item.time})`;
+				f.existing.options[count++] = new Option(`${item['date']} ${item['service']}${theTime}`, item['id']);
+			}
+		});
+	}).catch(e => {
+		alert(`Cannot get "active services": ${e}`);
+	});
+
+	fetch('api/v1/services').then(resp => {
+		resp.json().then(data => {
+			let count = 0;
+			for(let service of data) {
+				f.service.options[count++] = new Option(service['description'], service['id']);
+			}
+		})
+	}).catch(e => {
+		alert(`Cannot get "services": ${e}`);
+	});
+
+	let count = 0;
+	for(let hr = 0; hr < 24; hr++) {
+		f.hour.options[count++] = new Option(String(hr).padStart(2, '0'));
+	}
+
+	count = 0;
+	for(let min = 0; min < 60; min+=5) {
+		f.min.options[count++] = new Option(String(min).padStart(2, '0'));
+	}
+}
+
+function selExisting()
+{
+	var f = document.forms[0];
+	var si = f.existing.selectedIndex;
+	var val = f.existing.options[si].value;
+	var url = "makelist_old?id=" + val;
+	document.location = url;
+}
+
+function selNew()
+{
+	var f = document.forms[0];
+	var arr = mycal.curDate();
+	f.month.value = arr["month"] + 1;
+	f.day.value = arr["day"];
+	f.year.value = arr["year"];
+	f.submit();
+}
+
+document.addEventListener('DOMContentLoaded', (event) => {
+	begin();
+});
+</script>
+<body>
+
+<a href=".">Home</a><br /><br /><br />
+
+<table cellspacing="0" cellpadding="0">
+	<tr><td valign="top">
+		<table cellspacing="0" cellpadding="2" style="background-color: #ffffff;" id="cal">
+			<tr>
+				<td class="center line_bot"><a href="javascript:mycal.prev_mon();">&laquo;</a></td>
+				<td class="center line_bot" colspan="5"><span id="when"></span></td>
+				<td class="center line_bot"><a href="javascript:mycal.next_mon();">&raquo;</a></td>
+			</tr>
+			<tr>
+				<td class="labels">Sun</td>
+				<td class="labels">Mon</td>
+				<td class="labels">Tue</td>
+				<td class="labels">Wed</td>
+				<td class="labels">Thu</td>
+				<td class="labels">Fri</td>
+				<td class="labels line_right">Sat</td>
+			</tr>
+			<script type="text/javascript">
+for(let i=0; i<6; i++) {
+	document.write(" <tr>\n");
+	document.write("  <td class='weekend'>&nbsp;</td>\n");
+	document.write("  <td class='weekday'>&nbsp;</td>\n");
+	document.write("  <td class='weekday'>&nbsp;</td>\n");
+	document.write("  <td class='weekday'>&nbsp;</td>\n");
+	document.write("  <td class='weekday'>&nbsp;</td>\n");
+	document.write("  <td class='weekday'>&nbsp;</td>\n");
+	document.write("  <td class='weekend line_right'>&nbsp;</td>\n");
+	document.write(" </tr>\n");
+}
+			</script>
+		</table>
+	</td><td width="75">&nbsp;</td><td align="center"><form action="newlist_old" method="POST">
+		Select existing service<br />
+		<select name="existing"></select>
+		<input value=" go! " type="button" onClick="selExisting();">
+		<br /><br />
+		Or create a song list for <span id="dateblurb">(select date)</span><br />
+		<select name="service"></select> at:
+		<select name="hour"></select> <select name="min"></select>
+		<input value=" go! " type="button" onClick="selNew();">
+		<input type="hidden" name="month"/>
+		<input type="hidden" name="day"/>
+		<input type="hidden" name="year"/>
+	</form></td></tr></table>
+
+</body>
+</html>

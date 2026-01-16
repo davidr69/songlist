@@ -1,0 +1,114 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: songlist-app
+  labels:
+    app: songlist
+    tier: web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      tier: web
+  template:
+    metadata:
+      labels:
+        app: songlist
+        tier: web
+    spec:
+      volumes:
+        - name: vault-token
+          emptyDir:
+            medium: Memory
+            sizeLimit: 1Mi
+      initContainers:
+      - name: vault-retrieve
+        image: "pi4apps:5000/vault-retrieve:3.0.1"
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: MOUNT_PATH
+          value: "/var/tmp/vault"
+        - name: SPRING_APPLICATION_NAME
+          value: vault
+        - name: SPRING_PROFILES_ACTIVE
+          value: dbprod
+        - name: SPRING_CLOUD_CONFIG_LABEL
+          value: main
+        - name: SPRING_CONFIG_IMPORT
+          value: "configserver:http://configs.lavacro.net:9080/"
+        volumeMounts:
+        - name: vault-token
+          mountPath: "/var/tmp/vault"
+      containers:
+      - name: songlist
+        image: "pi4apps:5000/songlist:1.21.3"
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: profile
+          value: home
+        - name: additional_properties
+          value: "/var/tmp/vault/vault.properties"
+        volumeMounts:
+        - name: vault-token
+          mountPath: "/var/tmp/vault"
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "384Mi"
+            cpu: "500m" # 0.5 CPU
+        readinessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8444
+          timeoutSeconds: 60
+          #          initialDelaySeconds: 60
+        livenessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8444
+          timeoutSeconds: 3
+          initialDelaySeconds: 60
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: songlist-service
+spec:
+  selector:
+    app: songlist
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8444
+  type: LoadBalancer
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: songlist-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - host: songlist.cloud.lavacro.net
+    http:
+      paths:
+      - path: "/"
+        pathType: Prefix
+        backend:
+          service:
+            name: songlist-service
+            port:
+              number: 80
+  - host: www.lavacro.com
+    http:
+      paths:
+      - path: "/songlist"
+        pathType: Prefix
+        backend:
+          service:
+            name: songlist-service
+            port:
+              number: 80

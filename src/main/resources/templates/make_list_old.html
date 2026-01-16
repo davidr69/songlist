@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en-US" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Calendar</title>
+	<link rel="stylesheet" href="css/format.css" type="text/css">
+	<script type="text/javascript" src="js/common.js"></script>
+	<script type="text/javascript" src="js/code.js"></script>
+	<script type="text/javascript" src="js/make_list_old.js"></script>
+	<style>
+		select {
+			width: 300px;
+		}
+
+		body, td {
+			font-family: 'Open Sans', sans-serif;
+		}
+	</style>
+	<script type="text/javascript">
+		document.addEventListener('DOMContentLoaded', (event) => {
+            makelist.old.init();
+        });
+	</script>
+</head>
+<body style="background-color: #FFFFFF">
+
+<a href=".">Home</a><br /><br />
+<a href="calendar_old">Return</a> to calendar<br /><br />
+Song list for <th:span th:text="${service.formattedDate} + '; ' + ${service.service}"></th:span><br /><br />
+
+<form>
+	<table style="padding: 0; border: 0" cellspacing="0">
+		<tr>
+			<td valign="top">
+				<table cellspacing="0" cellpadding="5" border="0">
+					<tr>
+						<td class="shade" valign="top" align="center">Available songs:<br />
+							<select name="songlist" size="20"></select>
+						</td>
+						<td class="shade" align="center" width="50">
+							<input type="button" value=" move &rArr; " onClick="makelist.old.add_data();"><br /><br />
+							<input type="button" value=" &lArr; move " onClick="makelist.old.del_data();">
+						</td>
+						<td class="shade" valign="top" align="center">Selected songs:<br />
+							<select id="data" name="data" size="20"></select>
+						</td>
+						<td class="shade" align="center" width="20">
+							<input type="button" value="&uarr;" onClick="makelist.old.move_up();"><br /><br />
+							<input type="button" value="&darr;" onClick="makelist.old.move_down();">
+						</td>
+					</tr>
+					<tr><td colspan="4" class="shade" align="center">
+						<input type="button" value=" save " onClick="makelist.old.update();">
+					</td></tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+
+	<input type="hidden" id="serviceId" name="serviceId" th:value="${service.id}"/>
+	<input type="hidden" id="serviceType" name="serviceType" th:value="${serviceType}"/>
+	<input type="hidden" id="month" th:value="${month}"/>
+	<input type="hidden" id="day" th:value="${day}"/>
+	<input type="hidden" id="year" th:value="${year}"/>
+	<input type="hidden" id="hour" th:value="${hour}"/>
+	<input type="hidden" id="minute" th:value="${minute}"/>
+</form>
+
+</body>
+</html>
