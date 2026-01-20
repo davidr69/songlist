@@ -20,6 +20,3 @@ spring:
       minimum-idle: 3
       maximum-pool-size: 10
       idle-timeout: 10000
-  mvc:
-    pathmatch:
-      matching-strategy: ANT_PATH_MATCHER
