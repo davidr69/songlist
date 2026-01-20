@@ -1,3 +1,35 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: songlist-config-init
+  namespace: songlist
+data:
+  VAULT_REQUEST: |
+    {
+      "vault_request": [{
+        "mount": "lavacro",
+        "path": "prod/database/postgresql",
+        "items": [{
+          "key": "password",
+          "label": "spring.datasource.password"
+        }]
+      }],
+      "file_path": "/var/tmp/vault/vault.properties"
+    }
+  MOUNT_PATH: "/var/tmp/vault"
+  VAULT_ADDR: "http://vault.lavacro.net:8201"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: songlist-config-app
+  namespace: songlist
+data:
+  SPRING_DATASOURCE_USERNAME: "david"
+  SPRING_DATASOURCE_URL: "jdbc:postgresql://prod-db.lavacro.net:5432/songs?reWriteBatchedInserts=true"
+  SPRING_CONFIG_ADDITIONAL_LOCATION: "file:/var/tmp/vault/vault.properties"
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -23,31 +55,23 @@ spec:
             sizeLimit: 1Mi
       initContainers:
       - name: vault-retrieve
-        image: "pi4apps:5000/vault-retrieve:3.0.1"
+        image: "registry:5000/govault:1.0.0"
         imagePullPolicy: IfNotPresent
-        env:
-        - name: MOUNT_PATH
-          value: "/var/tmp/vault"
-        - name: SPRING_APPLICATION_NAME
-          value: vault
-        - name: SPRING_PROFILES_ACTIVE
-          value: dbprod
-        - name: SPRING_CLOUD_CONFIG_LABEL
-          value: main
-        - name: SPRING_CONFIG_IMPORT
-          value: "configserver:http://configs.lavacro.net:9080/"
+        envFrom:
+        - configMapRef:
+            name: songlist-config-init
+        - secretRef:
+            name: songlist-secrets
         volumeMounts:
         - name: vault-token
           mountPath: "/var/tmp/vault"
       containers:
       - name: songlist
-        image: "pi4apps:5000/songlist:1.21.3"
+        image: "registry:5000/songlist:1.22.0"
         imagePullPolicy: IfNotPresent
-        env:
-        - name: profile
-          value: home
-        - name: additional_properties
-          value: "/var/tmp/vault/vault.properties"
+        envFrom:
+        - configMapRef:
+            name: songlist-config-app
         volumeMounts:
         - name: vault-token
           mountPath: "/var/tmp/vault"
@@ -96,16 +120,6 @@ spec:
     http:
       paths:
       - path: "/"
-        pathType: Prefix
-        backend:
-          service:
-            name: songlist-service
-            port:
-              number: 80
-  - host: www.lavacro.com
-    http:
-      paths:
-      - path: "/songlist"
         pathType: Prefix
         backend:
           service:

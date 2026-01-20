@@ -1,11 +1,3 @@
 /.idea/
-/target/
-/bin/
-/.settings/
-/.project
-/.classpath
-/.gradle/
 /build/
-/gradle/
-/songlist.iml
-/gradle/
+/.gradle/
