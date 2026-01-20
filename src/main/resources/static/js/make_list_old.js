@@ -16,7 +16,7 @@ makelist.old.init = function() {
 
 	function get_selected_songs() {
 		let service = document.getElementById('serviceId').value;
-		if(service == 0) {
+		if(service === 0) {
 			return;
 		}
 
@@ -54,7 +54,7 @@ makelist.old.init = function() {
 makelist.old.add_data = function() {
 	const f = document.forms[0];
 	const si = f.songlist.options.selectedIndex;
-	if(si == -1) {
+	if(si === -1) {
 		alert("You must select a song");
 		return;
 	}
@@ -66,7 +66,7 @@ makelist.old.add_data = function() {
 makelist.old.del_data = function() {
 	const f = document.forms[0];
 	const si = f.data.options.selectedIndex;
-	if(si == -1) {
+	if(si === -1) {
 		alert("You must first select an item from the list");
 	} else {
 		f.data.options[si] = null;
@@ -76,7 +76,7 @@ makelist.old.del_data = function() {
 makelist.old.move_up = function() {
 	const f = document.forms[0];
 	const si = f.data.options.selectedIndex;
-	if(si==0) {
+	if(si === 0) {
 		alert("Already at top.");
 		return;
 	}
@@ -96,7 +96,7 @@ makelist.old.move_up = function() {
 makelist.old.move_down = function() {
 	const f = document.forms[0];
 	const si = f.data.options.selectedIndex;
-	if(si==(f.data.length-1)) {
+	if(si === (f.data.length-1)) {
 		alert("Already at bottom.");
 		return;
 	}
@@ -169,7 +169,7 @@ makelist.old.update = function() {
 	}
 
 	let data = document.getElementById('data');
-	if(data.options.length == 0) {
+	if(data.options.length === 0) {
 		alert('No selections made');
 		return;
 	}
@@ -179,7 +179,7 @@ makelist.old.update = function() {
 		songs.push(item.value);
 	}
 
-	if(document.getElementById('serviceId').value == 0) {
+	if(document.getElementById('serviceId').value === 0) {
 		new_list(songs);
 	} else {
 		update_list(songs);

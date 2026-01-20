@@ -50,17 +50,16 @@ function begin() {
 
 function selExisting()
 {
-	var f = document.forms[0];
-	var si = f.existing.selectedIndex;
-	var val = f.existing.options[si].value;
-	var url = "makelist_old?id=" + val;
-	document.location = url;
+	const f = document.forms[0];
+	const si = f.existing.selectedIndex;
+	const val = f.existing.options[si].value;
+	document.location = `makelist_old?id=${val}`;
 }
 
 function selNew()
 {
-	var f = document.forms[0];
-	var arr = mycal.curDate();
+	const f = document.forms[0];
+	const arr = mycal.curDate();
 	f.month.value = arr["month"] + 1;
 	f.day.value = arr["day"];
 	f.year.value = arr["year"];

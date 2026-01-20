@@ -12,7 +12,7 @@
 	<script type="module">
 		const songSetsJS = './js/songSets.js';
 		const { default: SongSets } = await import(songSetsJS);
-		window.songsets = new SongSets();
+		globalThis.songsets = new SongSets();
 	</script>
 
 </head>
@@ -32,14 +32,14 @@ Filter by:<br/>
 	<div style="display: table-row;">
 		<div style="display: table-cell; width: 50px;">Song:</div>
 		<div style="display: table-cell;">
-			<select id="selectSong" onchange="songsets.redraw()"><option value="0">All</option></select><br/>
+			<select id="selectSong" onchange="globalThis.songsets.redraw()"><option value="0">All</option></select><br/>
 		</div>
 	</div>
 
 	<div style="display: table-row;">
 		<div style="display: table-cell; width: 50px;">Leader:</div>
 		<div style="display: table-cell;">
-			<select id="selectLeader" onchange="songsets.redraw()"><option value="0">All</option></select>
+			<select id="selectLeader" onchange="globalThis.songsets.redraw()"><option value="0">All</option></select>
 		</div>
 	</div>
 </div>

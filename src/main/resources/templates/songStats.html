@@ -40,7 +40,7 @@
 	<script type="module">
 		const songStatsJS = './js/songStats.js';
 		const { default: SongStats } = await import(songStatsJS);
-		window.songStats = new SongStats();
+		globalThis.songStats = new SongStats();
 	</script>
 
 </head>
@@ -48,7 +48,7 @@
 
 <a href=".">main</a><br/><br/>
 
-<label for="services"></label><select id="services" onchange="songStats.redir(this)"></select>
+<label for="services"></label><select id="services" onchange="globalThis.songStats.redir(this)"></select>
 <br/><br/>
 
 <table>
