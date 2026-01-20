@@ -1,8 +1,16 @@
-FROM pi4apps:5000/openjdk:21-ea-27-slim
+# build stage
+ARG APP_VERSION="1.22.0"
 
+FROM docker.io/gradle:9-jdk25 AS builder
+ARG APP_VERSION
+WORKDIR /build
+COPY . .
+RUN gradle build -x test
+
+# runtime stage
+FROM registry:5000/awscorretto:25
+ARG APP_VERSION="1.22.0"
+COPY --from=builder /build/build/libs/songlist-${APP_VERSION}.jar /app/songlist.jar
 WORKDIR /app
-COPY build/libs/songlist-1.21.3.jar /app/songlist-1.21.3.jar
-
 USER nobody
-
-ENTRYPOINT ["/bin/sh", "-c", "java -Dspring.profiles.active=$profile -Dspring.config.additional-location=$additional_properties -jar songlist-1.21.3.jar"]
+ENTRYPOINT ["/bin/sh", "-c", "java -jar songlist.jar"]

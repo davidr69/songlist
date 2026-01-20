@@ -13,8 +13,6 @@ management:
 
 spring:
   datasource:
-    username: ${database.user}
-    password: ${database.password}
     driver-class-name: org.postgresql.Driver
     hikari:
       pool-name: SonglistCP
