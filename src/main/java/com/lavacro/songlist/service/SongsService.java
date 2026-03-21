@@ -2,10 +2,7 @@ package com.lavacro.songlist.service;
 
 import com.lavacro.songlist.SongListException;
 import com.lavacro.songlist.model.*;
-import com.lavacro.songlist.repository.CalendarDetailsRepository;
-import com.lavacro.songlist.repository.CalendarSummaryRepository;
-import com.lavacro.songlist.repository.SetsRepository;
-import com.lavacro.songlist.repository.SongsRepository;
+import com.lavacro.songlist.repository.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Example;
@@ -24,14 +21,17 @@ public class SongsService {
 	private final SetsRepository setsRepository;
 	private final CalendarDetailsRepository calendarDetailsRepository;
 	private final CalendarSummaryRepository calendarSummaryRepository;
+	private final ServicesRepository servicesRepository;
 
 	public SongsService(SongsRepository songsRepository, SetsRepository setsRepository,
 				CalendarDetailsRepository calendarDetailsRepository,
-				CalendarSummaryRepository calendarSummaryRepository) {
+				CalendarSummaryRepository calendarSummaryRepository,
+				ServicesRepository servicesRepository) {
 		this.songsRepository = songsRepository;
 		this.setsRepository = setsRepository;
 		this.calendarDetailsRepository = calendarDetailsRepository;
 		this.calendarSummaryRepository = calendarSummaryRepository;
+		this.servicesRepository = servicesRepository;
 	}
 
 	public List<SetLineItem> selectedSongs(final Integer id) {
@@ -50,8 +50,11 @@ public class SongsService {
 		// am I trying to create a list for a service which already exists?
 		LocalDate ld = LocalDate.of(year, month, day);
 
+		ServiceEntity serviceEntity = servicesRepository.findById(serviceType)
+				.orElseThrow(() -> new SongListException("Service type not found: " + serviceType));
+
 		CalendarSummaryEntity calendarSummaryEntity = new CalendarSummaryEntity();
-		calendarSummaryEntity.setService(serviceType);
+		calendarSummaryEntity.setServices(serviceEntity);
 		calendarSummaryEntity.setMydate(ld.atStartOfDay());
 		calendarSummaryEntity.setServiceTime(LocalTime.of(hour, min));
 		Example<CalendarSummaryEntity> example = Example.of(calendarSummaryEntity);

@@ -3,7 +3,6 @@ package com.lavacro.songlist.model;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.experimental.Accessors;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -20,7 +19,9 @@ public class CalendarSummaryEntity {
 
 	private LocalDateTime mydate;
 
-	private Integer service;
+	@ManyToOne
+	@JoinColumn(name = "service")
+	private ServiceEntity services;
 
 	private Integer leader;
 

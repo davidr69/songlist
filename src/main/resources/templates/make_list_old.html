@@ -6,7 +6,17 @@
 	<link rel="stylesheet" href="css/format.css" type="text/css">
 	<script type="text/javascript" src="js/common.js"></script>
 	<script type="text/javascript" src="js/code.js"></script>
-	<script type="text/javascript" src="js/make_list_old.js"></script>
+
+	<script type="module">
+		const makelistJS = './js/make_list_old.js';
+		const { default: MakeList } = await import(makelistJS);
+
+//		document.addEventListener('DOMContentLoaded', (event) => {
+			globalThis.makelist = new MakeList();
+//		});
+
+	</script>
+
 	<style>
 		select {
 			width: 300px;
@@ -16,11 +26,6 @@
 			font-family: 'Open Sans', sans-serif;
 		}
 	</style>
-	<script type="text/javascript">
-		document.addEventListener('DOMContentLoaded', (event) => {
-            makelist.old.init();
-        });
-	</script>
 </head>
 <body style="background-color: #FFFFFF">
 
@@ -31,26 +36,26 @@ Song list for <th:span th:text="${service.formattedDate} + '; ' + ${service.serv
 <form>
 	<table style="padding: 0; border: 0" cellspacing="0">
 		<tr>
-			<td valign="top">
+			<td style="vertical-align: top">
 				<table cellspacing="0" cellpadding="5" border="0">
 					<tr>
-						<td class="shade" valign="top" align="center">Available songs:<br />
+						<td class="shade" style="vertical-align: top; text-align: center">Available songs:<br />
 							<select name="songlist" size="20"></select>
 						</td>
-						<td class="shade" align="center" width="50">
-							<input type="button" value=" move &rArr; " onClick="makelist.old.add_data();"><br /><br />
-							<input type="button" value=" &lArr; move " onClick="makelist.old.del_data();">
+						<td class="shade" style="text-align: center; width: 50px">
+							<input type="button" value=" move &rArr; " onClick="globalThis.makelist.add_data();"><br /><br />
+							<input type="button" value=" &lArr; move " onClick="globalThis.makelist.del_data();">
 						</td>
-						<td class="shade" valign="top" align="center">Selected songs:<br />
+						<td class="shade" style="vertical-align: top; text-align: center">Selected songs:<br />
 							<select id="data" name="data" size="20"></select>
 						</td>
-						<td class="shade" align="center" width="20">
-							<input type="button" value="&uarr;" onClick="makelist.old.move_up();"><br /><br />
-							<input type="button" value="&darr;" onClick="makelist.old.move_down();">
+						<td class="shade" style="text-align: center; width: 20px">
+							<input type="button" value="&uarr;" onClick="globalThis.makelist.move_up();"><br /><br />
+							<input type="button" value="&darr;" onClick="globalThis.makelist.move_down();">
 						</td>
 					</tr>
-					<tr><td colspan="4" class="shade" align="center">
-						<input type="button" value=" save " onClick="makelist.old.update();">
+					<tr><td colspan="4" style="text-align: center" class="shade">
+						<input type="button" value=" save " onClick="globalThis.makelist.update();">
 					</td></tr>
 				</table>
 			</td>
