@@ -6,6 +6,8 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -23,7 +25,9 @@ public class CalendarSummaryEntity {
 	@JoinColumn(name = "service")
 	private ServiceEntity services;
 
-	private Integer leader;
+	@ManyToOne
+	@JoinColumn(name = "leader")
+	private LeaderEntity leaderEntity;
 
 	private String video;
 
@@ -31,4 +35,7 @@ public class CalendarSummaryEntity {
 
 	@Column(name = "service_time")
 	private LocalTime serviceTime;
+
+	@OneToMany(mappedBy = "calendar", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<CalendarDetailsEntity> details = new ArrayList<>();
 }

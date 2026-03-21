@@ -1,7 +1,7 @@
 package com.lavacro.songlist.controllers.api.v1;
 
 import com.lavacro.songlist.service.SingersService;
-import com.lavacro.songlist.model.Leader;
+import com.lavacro.songlist.model.LeaderEntity;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +22,7 @@ public class LeadersApi {
 
 	@Operation(summary = "Gets all worship leaders for a specific church/service")
 	@GetMapping
-	public List<Leader> getLeadersForService(
+	public List<LeaderEntity> getLeadersForService(
 			@Parameter(description = "An Integer representing the church/service ID")
 			@RequestParam(value = "service") final Integer service) {
 		return singersService.getLeadersForService(service);

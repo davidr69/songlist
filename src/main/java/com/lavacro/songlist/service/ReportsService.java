@@ -37,7 +37,7 @@ public class ReportsService {
 
 		List<SongSet> rv = new ArrayList<>();
 		SongSet songSet = null;
-		List<Song> songs = null;
+		List<SongEntity> songEntities = null;
 
 		for(SongSetsEntity entity: songSetsEntities) {
 			Integer serviceId = entity.getServiceId();
@@ -53,17 +53,17 @@ public class ReportsService {
 				actSvc.setTime(entity.getServiceTime());
 				actSvc.setFormattedTime(entity.getFormattedTime());
 				songSet.setService(actSvc);
-				songs = new ArrayList<>();
-				songSet.setSongs(songs);
+				songEntities = new ArrayList<>();
+				songSet.setSongs(songEntities);
 				rv.add(songSet);
 			}
 
-			Song song = new Song();
-			song.setMarker(entity.getMarker());
-			song.setTitle(entity.getTitle());
-			song.setKey(entity.getKey());
-			song.setAuthor(entity.getAuthor());
-			songs.add(song);
+			SongEntity songEntity = new SongEntity();
+			songEntity.setMarker(entity.getMarker());
+			songEntity.setTitle(entity.getTitle());
+			songEntity.setKey(entity.getKey());
+			songEntity.setAuthor(entity.getAuthor());
+			songEntities.add(songEntity);
 		}
 		return rv;
 	}

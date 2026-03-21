@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,7 +40,7 @@ public class SongsService {
 		return setsRepository.getSetList(id);
 	}
 
-	public List<Song> getAllSongs() {
+	public List<SongEntity> getAllSongs() {
 		LOGGER.info("Get all songs");
 		return songsRepository.findAllSortByTitle();
 	}
@@ -50,8 +51,7 @@ public class SongsService {
 		// am I trying to create a list for a service which already exists?
 		LocalDate ld = LocalDate.of(year, month, day);
 
-		ServiceEntity serviceEntity = servicesRepository.findById(serviceType)
-				.orElseThrow(() -> new SongListException("Service type not found: " + serviceType));
+		ServiceEntity serviceEntity = servicesRepository.getReferenceById(serviceType);
 
 		CalendarSummaryEntity calendarSummaryEntity = new CalendarSummaryEntity();
 		calendarSummaryEntity.setServices(serviceEntity);
@@ -81,16 +81,25 @@ public class SongsService {
 
 	private void insertData(final List<Integer> songs, final Integer serviceId) {
 		int sort = 1;
+
+		CalendarSummaryEntity calendarSummaryEntity = calendarSummaryRepository.getReferenceById(serviceId);
+		List<CalendarDetailsEntity> batch = new ArrayList<>();
+
 		for(Integer songId: songs) {
 			CalendarDetailsId id = new CalendarDetailsId().calendarId(serviceId).sort(sort++);
 			CalendarDetailsEntity entity = new CalendarDetailsEntity();
-			entity.setSong(songId);
+			entity.setCalendar(calendarSummaryEntity);
 			entity.setId(id);
-			calendarDetailsRepository.save(entity);
+
+			SongEntity songEntity = songsRepository.getReferenceById(songId);
+			entity.setSongEntity(songEntity);
+			batch.add(entity);
 		}
+
+		calendarDetailsRepository.saveAll(batch);
 	}
 
-	public List<Song> findSongsForService(final Integer service) {
+	public List<SongEntity> findSongsForService(final Integer service) {
 		return songsRepository.findSongsForService(service);
 	}
 }

@@ -11,7 +11,7 @@ import jakarta.persistence.Table;
 @Entity
 @Getter
 @Setter
-public class Leader {
+public class LeaderEntity {
     @Id
     private Integer id;
     private String name;

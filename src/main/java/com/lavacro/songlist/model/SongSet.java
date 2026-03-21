@@ -9,5 +9,5 @@ import java.util.List;
 @Setter
 public class SongSet {
 	private ActiveService service;
-	private List<Song> songs;
+	private List<SongEntity> songs;
 }

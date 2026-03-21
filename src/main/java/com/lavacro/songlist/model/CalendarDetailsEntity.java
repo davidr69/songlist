@@ -12,9 +12,18 @@ public class CalendarDetailsEntity {
 	@EmbeddedId
 	private CalendarDetailsId id;
 
-	private Integer song;
+	@ManyToOne
+	@MapsId("calendarId")
+	@JoinColumn(name = "calendar_id")
+	private CalendarSummaryEntity calendar;
 
-	private Integer leader;
+	@ManyToOne
+	@JoinColumn(name = "song")
+	private SongEntity songEntity;
+
+	@ManyToOne
+	@JoinColumn(name = "leader")
+	private LeaderEntity leaderEntity;
 
 	private String notes;
 

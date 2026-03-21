@@ -31,7 +31,7 @@ public class SongsApi {
 	}
 
 	@GetMapping
-	public ResponseEntity<List<Song>> allSongs() {
+	public ResponseEntity<List<SongEntity>> allSongs() {
 		return new ResponseEntity<>(songsService.getAllSongs(), null, HttpStatus.OK);
 	}
 
@@ -44,7 +44,7 @@ public class SongsApi {
 	/*
 	 * Returns all songs that have been selected for a service type
 	 */
-	public List<Song> getSongsForService(@PathVariable("service") final Integer service) {
+	public List<SongEntity> getSongsForService(@PathVariable("service") final Integer service) {
 		return songsService.findSongsForService(service);
 	}
 
