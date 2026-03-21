@@ -55,7 +55,7 @@ spec:
             sizeLimit: 1Mi
       initContainers:
       - name: vault-retrieve
-        image: "registry:5000/govault:1.0.2"
+        image: "registry:5000/govault:1.0.4"
         imagePullPolicy: IfNotPresent
         envFrom:
         - configMapRef:
