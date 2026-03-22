@@ -1,6 +1,7 @@
 package com.lavacro.songlist.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,10 +25,12 @@ public class CalendarSummaryEntity {
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "service")
+	@JsonProperty("service")
 	private ServiceEntity services;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "leader")
+	@JsonProperty("leader")
 	private LeaderEntity leaderEntity;
 
 	private String video;

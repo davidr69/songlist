@@ -71,14 +71,13 @@ print.init = function() {
 	}
 
 	const draw_meta = (data) => {
-		document.title = `${data.service} - ${data.formattedDate}`;
-		document.getElementById("serviceName").innerHTML = data.service;
-		if(data.time != null) {
-			data.formattedDate += ` - ${formatTime(data.time)}`;
-		}
-		document.getElementById("serviceDate").innerHTML = data.formattedDate;
+		const theDate = data.mydate.substring(0, 10);
+		document.title = `${data.service.description} - ${theDate} @ ${data.service.serviceTime}`;
+		document.getElementById("serviceName").innerHTML = data.service.description;
+		const formattedTime = formatTime(data.service.serviceTime);
+		document.getElementById("serviceDate").innerHTML = `${theDate} - ${formattedTime}`;
 		if(data.leader != null) {
-			document.getElementById("leader").innerHTML = data.leader;
+			document.getElementById("leader").innerHTML = data.leader.name;
 		}
 		callback();
 }

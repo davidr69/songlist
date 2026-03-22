@@ -1,9 +1,7 @@
 package com.lavacro.songlist.service;
 
-import com.lavacro.songlist.model.ActiveService;
 import com.lavacro.songlist.model.CalendarSummaryEntity;
 import com.lavacro.songlist.model.ServiceEntity;
-import com.lavacro.songlist.repository.ActiveServicesRepository;
 import com.lavacro.songlist.repository.CalendarSummaryRepository;
 import com.lavacro.songlist.repository.ServicesRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -17,15 +15,12 @@ import java.util.Optional;
 @Slf4j
 public class ServicesService {
 	private final ServicesRepository servicesRepository;
-	private final ActiveServicesRepository activeServicesRepository;
 	private final CalendarSummaryRepository calendarSummaryRepository;
 
 	ServicesService(
 		ServicesRepository servicesRepository,
-		ActiveServicesRepository activeServicesRepository,
 		CalendarSummaryRepository calendarSummaryRepository) {
 		this.servicesRepository = servicesRepository;
-		this.activeServicesRepository = activeServicesRepository;
 		this.calendarSummaryRepository = calendarSummaryRepository;
 	}
 
@@ -45,7 +40,8 @@ public class ServicesService {
 		return calendarSummaryRepository.getCalendarSummary();
 	}
 
-	public ActiveService getActiveServiceById(final Integer id) {
-		return activeServicesRepository.getOneService(id);
+	public CalendarSummaryEntity getActiveServiceById(final Integer id) {
+		log.info("getActiveServiceById");
+		return calendarSummaryRepository.getOneService(id);
 	}
 }

@@ -1,6 +1,5 @@
 package com.lavacro.songlist.controllers.api.v1;
 
-import com.lavacro.songlist.model.ActiveService;
 import com.lavacro.songlist.model.CalendarSummaryEntity;
 import com.lavacro.songlist.model.ServiceEntity;
 import com.lavacro.songlist.service.ServicesService;
@@ -39,7 +38,7 @@ public class ServicesApi {
 	}
 
 	@GetMapping(path = "/active/{serviceId}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<ActiveService> activeService(@PathVariable("serviceId") Integer serviceId) {
+	public ResponseEntity<CalendarSummaryEntity> activeService(@PathVariable("serviceId") Integer serviceId) {
 		return new ResponseEntity<>(servicesService.getActiveServiceById(serviceId), null, HttpStatus.OK);
 	}
 
