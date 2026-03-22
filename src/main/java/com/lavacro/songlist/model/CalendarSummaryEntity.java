@@ -1,5 +1,6 @@
 package com.lavacro.songlist.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,11 +22,11 @@ public class CalendarSummaryEntity {
 
 	private LocalDateTime mydate;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "service")
 	private ServiceEntity services;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "leader")
 	private LeaderEntity leaderEntity;
 
@@ -36,6 +37,7 @@ public class CalendarSummaryEntity {
 	@Column(name = "service_time")
 	private LocalTime serviceTime;
 
-	@OneToMany(mappedBy = "calendar", cascade = CascadeType.ALL, orphanRemoval = true)
+	@JsonManagedReference
+	@OneToMany(mappedBy = "calendar", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	private List<CalendarDetailsEntity> details = new ArrayList<>();
 }

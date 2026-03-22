@@ -10,9 +10,13 @@ import java.util.List;
 @Repository
 public interface CalendarSummaryRepository extends JpaRepository<CalendarSummaryEntity, Integer> {
 	@Query("""
-		SELECT cs
+		SELECT DISTINCT cs
 		FROM CalendarSummaryEntity cs
 		JOIN FETCH cs.services
+		LEFT JOIN FETCH cs.details d
+		LEFT JOIN FETCH d.songEntity
+		LEFT JOIN FETCH d.leaderEntity
+		ORDER BY cs.mydate DESC, cs.services.description
 	""")
 	List<CalendarSummaryEntity> getCalendarSummary();
 }
