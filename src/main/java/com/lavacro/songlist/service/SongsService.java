@@ -19,25 +19,18 @@ public class SongsService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(SongsService.class);
 
 	private final SongsRepository songsRepository;
-	private final SetsRepository setsRepository;
 	private final CalendarDetailsRepository calendarDetailsRepository;
 	private final CalendarSummaryRepository calendarSummaryRepository;
 	private final ServicesRepository servicesRepository;
 
-	public SongsService(SongsRepository songsRepository, SetsRepository setsRepository,
+	public SongsService(SongsRepository songsRepository,
 				CalendarDetailsRepository calendarDetailsRepository,
 				CalendarSummaryRepository calendarSummaryRepository,
 				ServicesRepository servicesRepository) {
 		this.songsRepository = songsRepository;
-		this.setsRepository = setsRepository;
 		this.calendarDetailsRepository = calendarDetailsRepository;
 		this.calendarSummaryRepository = calendarSummaryRepository;
 		this.servicesRepository = servicesRepository;
-	}
-
-	public List<SetLineItem> selectedSongs(final Integer id) {
-		LOGGER.info("selected songs");
-		return setsRepository.getSetList(id);
 	}
 
 	public List<SongEntity> getAllSongs() {
@@ -51,7 +44,7 @@ public class SongsService {
 		// am I trying to create a list for a service which already exists?
 		LocalDate ld = LocalDate.of(year, month, day);
 
-		ServiceEntity serviceEntity = servicesRepository.getReferenceById(serviceType);
+		ServiceEntity serviceEntity = servicesRepository.findById(serviceType).orElse(null);
 
 		CalendarSummaryEntity calendarSummaryEntity = new CalendarSummaryEntity();
 		calendarSummaryEntity.setService(serviceEntity);

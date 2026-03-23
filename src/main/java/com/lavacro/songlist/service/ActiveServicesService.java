@@ -27,7 +27,7 @@ public class ActiveServicesService {
 
 	public List<ActiveServiceDTO> getActiveServices() {
 		String sql = """
-			SELECT TO_CHAR(cs.mydate, 'YYYY-MM-DD') AS formatted_date, cs.id AS service_id, s.description AS service, cs.service_time
+			SELECT TO_CHAR(cs.mydate, 'Dy, Mon DD, YYYY') AS formatted_date, cs.id AS service_id, s.description AS service, cs.service_time
 			FROM calendar_summary cs
 			JOIN services s ON cs.service = s.id
 			ORDER BY mydate DESC, service

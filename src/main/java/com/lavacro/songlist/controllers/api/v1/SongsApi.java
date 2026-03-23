@@ -7,7 +7,6 @@ import com.lavacro.songlist.service.ServicesService;
 import com.lavacro.songlist.service.SongsService;
 import lombok.extern.slf4j.Slf4j;
 
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -45,24 +44,6 @@ public class SongsApi {
 	 */
 	public List<SongEntity> getSongsForService(@PathVariable("service") final Integer service) {
 		return songsService.findSongsForService(service);
-	}
-
-	/**
-	 * @deprecated
-	 * @param id
-	 * supersede with api/v1/services/active
-	 * @return foobar
-	 */
-	@Deprecated(forRemoval = true, since = "2026-03-22")
-	@GetMapping(path = "/selected/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<SetLineItem>> selectedSongs(
-			@PathVariable(name = "id") Integer id
-	) {
-		HttpHeaders headers = new HttpHeaders();
-		headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
-		headers.add("Expires", "0");
-		headers.add("Pragma", "no-cache");
-		return new ResponseEntity<>(songsService.selectedSongs(id), headers, HttpStatus.OK);
 	}
 
 	@GetMapping(path = "/sets", produces = MediaType.APPLICATION_JSON_VALUE)

@@ -29,12 +29,12 @@ export default class MakeList {
 
 		let sel = [];
 		let fmt = this.#format_item;
-		fetch(`api/v1/songs/selected/${service}`).then(resp => {
+		fetch(`api/v1/services/active/${service}`).then(resp => {
 			resp.json().then(data => {
 				let f = document.forms[0];
-				data.forEach(function (item, idx) {
-					sel[item['id']] = idx;
-					f.data.options[idx] = new Option(fmt(item), item['id']);
+				data.details.forEach(function (item, idx) {
+					sel[item.song.id] = idx;
+					f.data.options[idx] = new Option(fmt(item.song), item.song.id);
 				});
 			});
 			this.selections = sel;

@@ -58,7 +58,7 @@ Song list for <span th:text="${service.formattedDateTime} + '; ' + ${service.ser
 		</tr>
 	</table>
 
-	<input type="hidden" id="serviceId" name="serviceId" th:value="${service.id}"/>
+	<input type="hidden" id="serviceId" name="serviceId" th:value="${service['id']}"/>
 	<input type="hidden" id="serviceType" name="serviceType" th:value="${serviceType}"/>
 	<input type="hidden" id="month" th:value="${month}"/>
 	<input type="hidden" id="day" th:value="${day}"/>
