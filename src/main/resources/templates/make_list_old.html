@@ -3,18 +3,14 @@
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Calendar</title>
-	<link rel="stylesheet" href="css/format.css" type="text/css">
+	<link rel="stylesheet" href="./css/format.css" type="text/css">
 	<script type="text/javascript" src="js/common.js"></script>
 	<script type="text/javascript" src="js/code.js"></script>
 
 	<script type="module">
 		const makelistJS = './js/make_list_old.js';
 		const { default: MakeList } = await import(makelistJS);
-
-//		document.addEventListener('DOMContentLoaded', (event) => {
-			globalThis.makelist = new MakeList();
-//		});
-
+		globalThis.makelist = new MakeList();
 	</script>
 
 	<style>
@@ -31,7 +27,7 @@
 
 <a href=".">Home</a><br /><br />
 <a href="calendar_old">Return</a> to calendar<br /><br />
-Song list for <th:span th:text="${service.formattedDate} + '; ' + ${service.service}"></th:span><br /><br />
+Song list for <th:span th:text="${service.mydate} + '; ' + ${service.services.description}"></th:span><br /><br />
 
 <form>
 	<table style="padding: 0; border: 0" cellspacing="0">

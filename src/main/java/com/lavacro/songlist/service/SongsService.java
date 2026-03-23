@@ -54,7 +54,7 @@ public class SongsService {
 		ServiceEntity serviceEntity = servicesRepository.getReferenceById(serviceType);
 
 		CalendarSummaryEntity calendarSummaryEntity = new CalendarSummaryEntity();
-		calendarSummaryEntity.setServices(serviceEntity);
+		calendarSummaryEntity.setService(serviceEntity);
 		calendarSummaryEntity.setMydate(ld.atStartOfDay());
 		calendarSummaryEntity.setServiceTime(LocalTime.of(hour, min));
 		Example<CalendarSummaryEntity> example = Example.of(calendarSummaryEntity);

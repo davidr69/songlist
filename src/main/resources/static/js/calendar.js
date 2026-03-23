@@ -80,7 +80,7 @@ class Calendar {
 			}
 			i = 0;
 		}
-		var filler = 1;
+		let filler = 1;
 		for(i=temp; i<7; i++) {
 			row.cells[i].innerHTML = filler++;
 			let attr = get_base(row.cells[i].className);

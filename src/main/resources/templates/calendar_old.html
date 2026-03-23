@@ -3,7 +3,7 @@
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Calendar</title>
-	<link rel="stylesheet" href="css/format.css" type="text/css">
+	<link rel="stylesheet" href="./css/format.css" type="text/css">
 	<script type="text/javascript" src="js/code.js"></script>
 	<script type="text/javascript" src="js/calendar.js"></script>
 	<script type="text/javascript">
@@ -19,7 +19,7 @@ function begin() {
 			let count = 0;
 			for(let item of data) {
 				let theDate = item.mydate.substring(0, 10);
-				f.existing.options[count++] = new Option(`${theDate} ${item['services']['description']} (${item.serviceTime})`, item['id']);
+				f.existing.options[count++] = new Option(`${theDate} ${item['service']['description']} (${item.serviceTime})`, item['id']);
 			}
 		});
 	}).catch(e => {

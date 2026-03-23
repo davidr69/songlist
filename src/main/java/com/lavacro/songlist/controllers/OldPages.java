@@ -1,13 +1,12 @@
 package com.lavacro.songlist.controllers;
 
-import com.lavacro.songlist.repository.ActiveServicesRepository;
 import com.lavacro.songlist.repository.ServicesRepository;
 import com.lavacro.songlist.model.ActiveService;
 
+import com.lavacro.songlist.service.ServicesService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,12 +20,11 @@ public class OldPages {
 	private static final Logger logger = LoggerFactory.getLogger(OldPages.class);
 
 	private final ServicesRepository servicesRepository;
-	private final ActiveServicesRepository activeServicesRepository;
+	private final ServicesService servicesService;
 
-	@Autowired
-	public OldPages(ServicesRepository servicesRepository, ActiveServicesRepository activeServicesRepository) {
+	public OldPages(ServicesRepository servicesRepository, ServicesService servicesService) {
 		this.servicesRepository = servicesRepository;
-		this.activeServicesRepository = activeServicesRepository;
+		this.servicesService = servicesService;
 	}
 
 	@GetMapping(path = {"/calendar_old"})
@@ -36,7 +34,7 @@ public class OldPages {
 
 	@GetMapping(path = {"/makelist_old"})
 	public String makeList(Model model, @RequestParam("id") Integer id) {
-		model.addAttribute("service", activeServicesRepository.getOneService(id));
+		model.addAttribute("service", servicesService.getActiveServiceById(id));
 		return "make_list_old";
 	}
 

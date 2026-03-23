@@ -55,34 +55,89 @@ export default class SongSets {
 		let table = document.createElement('table');
 		table.setAttribute('style', 'padding: 2px; border-spacing: 0px;');
 
+		/*
+			Data looks like:
+
+			[
+				{
+					"id":652,
+					"mydate":"2026-03-22T00:00:00",
+					"video":null,
+					"duplicate":null,
+					"serviceTime":"11:00:00",
+					"details":[
+						{
+							"id":{},
+							"song":{
+								"id":-4,
+								"title":"Praise/Worship",
+								"tempo":null,
+								"key":null,
+								"author":null,
+								"praise":null,
+								"marker":true,
+								"alias":null,
+								"language":null
+							},
+							"leaderEntity":null,
+							"notes":null,
+							"keyOverride":null
+						},{
+							"id":{},
+							"song":{
+								"id":335,
+								"title":"Won't Stop Now",
+								"tempo":122,
+								"key":"A",
+								"author":"Elevation Worship",
+								"praise":true,
+								"marker":null,
+								"alias":null,
+								"language":1
+							},
+							"leader":null,
+							"notes":null,
+							"keyOverride":"C"
+						}
+					],
+					"formattedDate":"22/03/2026",
+					"formattedTime":"11:00:00",
+					"service":{
+						"id":2,
+						"description":"El Bethel",
+						"serviceTime":"11:00:00"
+					},
+					"leader":{
+						"id":2,
+						"name":"Elizabeth Rosario"
+					}
+				}
+			]
+		 */
 		for(let item of data) {
 			let tr = document.createElement('tr');
 			let td = document.createElement('td');
 			td.setAttribute('colspan', '2');
 
 			let date;
-			if(item.service.video == null) {
-				date = document.createTextNode(item.service.formattedDate);
+			if(item.video == null) {
+				date = document.createTextNode(item.formattedDateTime);
 			} else {
 				date = document.createElement('a');
 				date.setAttribute('href', item.service.video);
 				date.setAttribute('target', '_blank');
-				let innerDate = document.createTextNode(item.service.formattedDate);
+				let innerDate = document.createTextNode(item.formattedDateTime);
 				date.appendChild(innerDate);
 			}
 
-			let time = document.createTextNode(item.service.formattedTime || '');
-
 			td.appendChild(date);
 			td.appendChild(document.createTextNode(' '));
-			td.appendChild(time);
-			td.appendChild(document.createTextNode(' '));
 
-			if(item.service.leader != null) {
+			if(item.leader != null) {
 				td.appendChild(document.createTextNode(' - '));
 				let span = document.createElement('span');
 				span.setAttribute('class', 'leader');
-				span.appendChild(document.createTextNode(item.service.leader));
+				span.appendChild(document.createTextNode(item.leader.name));
 				td.appendChild(span);
 			}
 			tr.appendChild(td);
@@ -93,7 +148,7 @@ export default class SongSets {
 			printIcon.setAttribute('class', 'fa-solid fa-print');
 
 			let printLink = document.createElement('a');	// <a href="javascript:makelist.old.print();">Printable</a> version
-			printLink.setAttribute('href', `javascript:songsets.print(${item.service.id});`);
+			printLink.setAttribute('href', `javascript:songsets.print(${item.id});`);
 			printLink.appendChild(printIcon);
 
 			td.appendChild(document.createTextNode('\u00A0'));
@@ -105,13 +160,13 @@ export default class SongSets {
 
 			table.appendChild(tr);
 
-			for(let song of item.songs) {
+			for(let songItem of item.details) {
 				let row = document.createElement('tr');
 				let cell = document.createElement('td');
 
-				let title = document.createTextNode(song.title);
+				let title = document.createTextNode(songItem.song.title);
 
-				if(song.marker === true) {
+				if(songItem.song.marker === true) {
 					cell.setAttribute('colspan', '2');
 					let span = document.createElement('span');
 					span.setAttribute('class', 'marker');
@@ -119,13 +174,13 @@ export default class SongSets {
 					cell.appendChild(span);
 					row.appendChild(cell);
 				} else {
-					cell.innerHTML = this.#flat_sharp(song.key);
+					cell.innerHTML = this.#flat_sharp(songItem.keyOverride != null ? songItem.keyOverride : songItem.song.key);
 					row.appendChild(cell);
 					cell = document.createElement('td');
 					cell.appendChild(title);
-					if(song.author != null) {
+					if(songItem.song.author != null) {
 						let slant = document.createElement('i');
-						slant.appendChild(document.createTextNode(` (${song.author})`));
+						slant.appendChild(document.createTextNode(` (${songItem.song.author})`));
 						cell.appendChild(slant);
 					}
 					row.appendChild(cell);

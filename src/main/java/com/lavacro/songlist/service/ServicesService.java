@@ -44,4 +44,10 @@ public class ServicesService {
 		log.info("getActiveServiceById");
 		return calendarSummaryRepository.getOneService(id);
 	}
+
+	public List<CalendarSummaryEntity> getSongSets(final Integer service, final Integer songId, final Integer leader) {
+		log.info("get song sets");
+
+		return calendarSummaryRepository.getSets(service, songId, leader);
+	}
 }

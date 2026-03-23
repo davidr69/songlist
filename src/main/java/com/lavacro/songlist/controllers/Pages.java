@@ -5,7 +5,6 @@ import com.lavacro.songlist.model.ServiceEntity;
 
 import com.lavacro.songlist.model.SongStats;
 
-import com.lavacro.songlist.repository.ActiveServicesRepository;
 import com.lavacro.songlist.service.ReportsService;
 import com.lavacro.songlist.service.ServicesService;
 import com.lavacro.songlist.service.SingersService;
@@ -29,15 +28,17 @@ public class Pages {
 	private final SongsService songsService;
 	private final ReportsService reportsService;
 	private final ServicesService servicesService;
-	private final ActiveServicesRepository activeServicesRepository;
 
-	public Pages(SingersService singersService, SongsService songsService, ReportsService reportsService,
-				 ActiveServicesRepository activeServicesRepository, ServicesService servicesService) {
+	public Pages(
+			SingersService singersService,
+			SongsService songsService,
+			ReportsService reportsService,
+			ServicesService servicesService
+	) {
 		this.singersService = singersService;
 		this.songsService = songsService;
 		this.reportsService = reportsService;
 		this.servicesService = servicesService;
-		this.activeServicesRepository = activeServicesRepository;
 	}
 
 	@GetMapping(path = "/calendar")
@@ -47,7 +48,7 @@ public class Pages {
 
 	@GetMapping(path = "/makelist")
 	public String makeList(Model model, @RequestParam(value = "id") Integer id) {
-		model.addAttribute(SERVICE, activeServicesRepository.getOneService(id));
+//		model.addAttribute(SERVICE, activeServicesRepository.getOneService(id));
 		return "make_list";
 	}
 
@@ -80,7 +81,7 @@ public class Pages {
 	@GetMapping(path = "/print")
 	public String print(Model model, @RequestParam("serviceId") Integer id) {
 		model.addAttribute(SONGS, songsService.selectedSongs(id));
-		model.addAttribute(SERVICE, activeServicesRepository.getOneService(id));
+//		model.addAttribute(SERVICE, activeServicesRepository.getOneService(id));
 		return "print";
 	}
 

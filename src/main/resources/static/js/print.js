@@ -1,62 +1,59 @@
-print = {}
+export default class Print {
+	params;
+	active_calls;
 
-print.init = function() {
-	let params = common.parseUrlParams();
-	let active_calls = 2;
+	constructor() {
+		this.params = common.parseUrlParams();
+		this.active_calls = 2;
+		this.#init();
+	}
 
-	function flat_sharp(note) {
-		if(note == null || note == "null") {
+	#init = () => {
+		this.#get_metadata();
+	}
+
+	#flat_sharp = (note) => {
+		if(note == null || note === "null") {
 			return "";
 		}
 		return note.replace(/#/, "&#9839;").replace(/b/, "&#9837;");
 	}
 
-	function formatTime(time) {
-		// must be in the format hh:mm:ss
-		let parts = time.split(':');
-		if(parts[0] == 0) {
-			return `12:${parts[1]}am`
-		} else if(parts[0] < 12) {
-			return `${parts[0]}:${parts[1]}am`;
-		} else {
-			return `${parts[0] - 12}:${parts[1]}pm`
-		}
-	}
-
-	function callback() {
-		if(--active_calls == 0) {
+	#callback = () => {
+		if(--this.active_calls === 0) {
 			document.body.style.display = 'inline';
 		}
 	}
 
-	const draw = (data) => {
+	#draw = (data) => {
 		let songSet = document.getElementById("songSet");
 		for(let tuple of data) {
 			let tr = document.createElement('tr');
-			if(tuple.marker) {
+			if(tuple.song.marker) {
 				let td = document.createElement('td');
 				td.setAttribute('class', 'list bold');
 				td.setAttribute('colspan', '3');
 				td.appendChild(document.createElement('br'));
-				td.appendChild(document.createTextNode(tuple.title));
+				td.appendChild(document.createTextNode(tuple.song.title));
 				td.appendChild(document.createElement('br'));
 				tr.appendChild(td);
 			} else {
 				let td = document.createElement('td');
 				td.setAttribute('class', 'list');
-				td.innerHTML = flat_sharp(tuple.note);
+				let note = tuple.keyOverride == null ? tuple.song.note : tuple.keyOverride;
+				td.innerHTML = this.#flat_sharp(note);
 				tr.appendChild(td);
 
-				let author = tuple.author == null ? '' : `<span class="slant">(${tuple.author})</span>`;
+				let author = tuple.song.author == null ? '' : `<span class="slant">(${tuple.song.author})</span>`;
 				let leader = tuple.leader == null ? '' : `<span class='fade'>&nbsp;&nbsp;. . . ${tuple.leader}</span>`;
-				let aka = tuple.aka == null ? '' : `... <span class="aka">&laquo;${tuple.aka}&raquo;</span>`;
+				let aka = tuple.song.alias == null ? '' : `... <span class="aka">&laquo;${tuple.song.alias}&raquo;</span>`;
 				let extra = '';
 				if(tuple.memo != null) {
 					extra = ` <span class='memo'>[${tuple.memo}]</span>`;
 				}
 				td = document.createElement('td');
 				td.setAttribute('class', 'list');
-				td.innerHTML = `${tuple.title} ${author} ${aka} ${leader}${extra}`;
+				td.innerHTML = `${tuple.song.title} ${author} ${aka} ${leader}${extra}`;
 				tr.appendChild(td);
 
 				td = document.createElement('td');
@@ -67,41 +64,28 @@ print.init = function() {
 			}
 			songSet.appendChild(tr);
 		}
-		callback();
+		this.#callback();
 	}
 
-	const draw_meta = (data) => {
+	#draw_meta = (data) => {
 		const theDate = data.mydate.substring(0, 10);
 		document.title = `${data.service.description} - ${theDate} @ ${data.service.serviceTime}`;
 		document.getElementById("serviceName").innerHTML = data.service.description;
-		const formattedTime = formatTime(data.service.serviceTime);
-		document.getElementById("serviceDate").innerHTML = `${theDate} - ${formattedTime}`;
+		document.getElementById("serviceDate").innerHTML = data.formattedDateTime;
 		if(data.leader != null) {
 			document.getElementById("leader").innerHTML = data.leader.name;
 		}
-		callback();
+		this.#callback();
 }
 
-	const get_songs = async() => {
-		const resp = await fetch(`api/v1/songs/selected/${params.serviceId}`);
+	#get_metadata = async() => {
+		const resp = await fetch(`api/v1/services/active/${this.params.serviceId}`);
 		if(resp.status === 200) {
 			const data = await resp.json();
-			draw(data);
+			this.#draw_meta(data);
+			this.#draw(data.details);
 		} else {
 			alert('Could not obtain song data');
 		}
 	}
-
-	const get_metadata = async() => {
-		const resp = await fetch(`api/v1/services/active/${params.serviceId}`);
-		if(resp.status === 200) {
-			const data = await resp.json();
-			draw_meta(data);
-		} else {
-			alert('Could not obtain song data');
-		}
-	}
-
-	get_songs();
-	get_metadata();
 }
