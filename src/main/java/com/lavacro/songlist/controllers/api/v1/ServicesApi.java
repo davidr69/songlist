@@ -1,7 +1,9 @@
 package com.lavacro.songlist.controllers.api.v1;
 
+import com.lavacro.songlist.model.ActiveServiceDTO;
 import com.lavacro.songlist.model.CalendarSummaryEntity;
 import com.lavacro.songlist.model.ServiceEntity;
+import com.lavacro.songlist.service.ActiveServicesService;
 import com.lavacro.songlist.service.ServicesService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -17,9 +19,11 @@ import java.util.List;
 @RestController
 public class ServicesApi {
 	private final ServicesService servicesService;
+	private final ActiveServicesService activeServicesService;
 
-	ServicesApi(ServicesService servicesService) {
+	ServicesApi(ServicesService servicesService, ActiveServicesService activeServicesService) {
 		this.servicesService = servicesService;
+		this.activeServicesService = activeServicesService;
 	}
 
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -33,8 +37,8 @@ public class ServicesApi {
 	}
 
 	@GetMapping(path = "/active", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<CalendarSummaryEntity>> activeServices() {
-		return new ResponseEntity<>(servicesService.getActiveServices(), null, HttpStatus.OK);
+	public ResponseEntity<List<ActiveServiceDTO>> activeServices() {
+		return new ResponseEntity<>(activeServicesService.getActiveServices(), null, HttpStatus.OK);
 	}
 
 	@GetMapping(path = "/active/{serviceId}", produces = MediaType.APPLICATION_JSON_VALUE)

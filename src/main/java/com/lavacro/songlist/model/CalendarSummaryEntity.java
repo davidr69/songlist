@@ -51,16 +51,12 @@ public class CalendarSummaryEntity {
 
 	@Transient
 	public String getFormattedDate() {
-		return mydate.format(dateFormatter);
-	}
-
-	@Transient
-	public String getFormattedTime() {
-		return serviceTime.format(timeFormatter);
+		return mydate == null ? "" : mydate.format(dateFormatter);
 	}
 
 	@Transient
 	public String getFormattedDateTime() {
-		return mydate.format(dowFormatter) + " " + service.getServiceTime().format(timeFormatter);
+		return mydate == null || service.getServiceTime() == null ? "" :
+			mydate.format(dowFormatter) + " " + service.getServiceTime().format(timeFormatter);
 	}
 }
