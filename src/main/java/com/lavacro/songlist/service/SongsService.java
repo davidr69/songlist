@@ -3,8 +3,8 @@ package com.lavacro.songlist.service;
 import com.lavacro.songlist.SongListException;
 import com.lavacro.songlist.model.*;
 import com.lavacro.songlist.repository.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
@@ -15,9 +15,8 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class SongsService {
-	private static final Logger LOGGER = LoggerFactory.getLogger(SongsService.class);
-
 	private final SongsRepository songsRepository;
 	private final CalendarDetailsRepository calendarDetailsRepository;
 	private final CalendarSummaryRepository calendarSummaryRepository;
@@ -34,13 +33,13 @@ public class SongsService {
 	}
 
 	public List<SongEntity> getAllSongs() {
-		LOGGER.info("Get all songs");
+		log.info("Get all songs");
 		return songsRepository.findAllSortByTitle();
 	}
 
 	public Integer addSongs(final List<Integer> songs, final Integer serviceType, final Integer month,
 				final Integer day, final Integer year, final Integer hour, final Integer min) throws SongListException {
-		LOGGER.info("add songs");
+		log.info("add songs");
 		// am I trying to create a list for a service which already exists?
 		LocalDate ld = LocalDate.of(year, month, day);
 
@@ -60,14 +59,14 @@ public class SongsService {
 			id =  calendarSummaryEntity.getId();
 			insertData(songs, id);
 		} else {
-			LOGGER.error("Service already exists");
+			log.error("Service already exists");
 			throw new SongListException("Service already exists");
 		}
 		return id;
 	}
 
 	public void updateSongs(final List<Integer> songs, final Integer service) {
-		LOGGER.info("update songs");
+		log.info("update songs");
 		songsRepository.deleteFromCalendar(service);
 		insertData(songs, service);
 	}
