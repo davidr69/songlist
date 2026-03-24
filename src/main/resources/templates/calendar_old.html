@@ -92,17 +92,24 @@ document.addEventListener('DOMContentLoaded', (event) => {
 				<td class="labels line_right">Sat</td>
 			</tr>
 			<script type="text/javascript">
-for(let i=0; i<6; i++) {
-	document.write(" <tr>\n");
-	document.write("  <td class='weekend'>&nbsp;</td>\n");
-	document.write("  <td class='weekday'>&nbsp;</td>\n");
-	document.write("  <td class='weekday'>&nbsp;</td>\n");
-	document.write("  <td class='weekday'>&nbsp;</td>\n");
-	document.write("  <td class='weekday'>&nbsp;</td>\n");
-	document.write("  <td class='weekday'>&nbsp;</td>\n");
-	document.write("  <td class='weekend line_right'>&nbsp;</td>\n");
-	document.write(" </tr>\n");
-}
+				let here = document.getElementById('cal');
+				for(let i=0; i<6; i++) {
+					let tr = document.createElement('tr');
+					for(let j=0; j<7; j++) {
+						let td = document.createElement('td');
+						let klass;
+						switch(j) {
+							case 0: klass = 'weekend'; break;
+							case 6: klass = 'weekend line_right'; break;
+							default: klass = 'weekday';
+						}
+						td.setAttribute('class', klass);
+						let nbsp = document.createTextNode('\u00A0');
+						td.appendChild(nbsp);
+						tr.appendChild(td);
+					}
+					here.appendChild(tr);
+				}
 			</script>
 		</table>
 	</td><td width="75">&nbsp;</td><td align="center"><form action="newlist_old" method="POST">
