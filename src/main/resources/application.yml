@@ -1,6 +1,4 @@
 server:
-  session:
-    timeout: 300
   port: 8444
 
 management:
@@ -21,7 +19,7 @@ spring:
       maximum-pool-size: 10
       idle-timeout: 10000
   jpa:
-    show-sql: true
+#    show-sql: true
     properties:
       hibernate:
         jdbc:
