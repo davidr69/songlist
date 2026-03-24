@@ -1,13 +1,10 @@
 package com.lavacro.songlist.service;
 
-import com.lavacro.songlist.model.Leader;
-import com.lavacro.songlist.model.Song;
+import com.lavacro.songlist.model.LeaderEntity;
+import com.lavacro.songlist.model.SongEntity;
 import com.lavacro.songlist.repository.LeadersRepository;
 import com.lavacro.songlist.repository.SongsRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,17 +20,17 @@ public class SingersService {
 		this.songsRepository = songsRepository;
 	}
 
-	public List<Song> singerSonglist(final Integer singer) {
+	public List<SongEntity> singerSonglist(final Integer singer) {
 		log.info("singerSonglist");
 		return songsRepository.findSongsForSinger(singer);
 	}
 
-	public List<Leader> getLeaders() {
+	public List<LeaderEntity> getLeaders() {
 		log.info("getLeaders");
 		return leadersRepository.findAll();
 	}
 
-	public List<Leader> getLeadersForService(final Integer service) {
+	public List<LeaderEntity> getLeadersForService(final Integer service) {
 		log.info("getLeadersForService");
 		return leadersRepository.getLeadersForService(service);
 	}

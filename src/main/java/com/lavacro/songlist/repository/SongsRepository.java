@@ -1,6 +1,6 @@
 package com.lavacro.songlist.repository;
 
-import com.lavacro.songlist.model.Song;
+import com.lavacro.songlist.model.SongEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -11,13 +11,13 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Repository
-public interface SongsRepository extends JpaRepository<Song, Integer> {
+public interface SongsRepository extends JpaRepository<SongEntity, Integer> {
 	@Query(value = """
 			SELECT id, title, bpm, note, author, praise, marker, aka, language
 			FROM songs
 			ORDER BY marker, spanish_sort(title)
 	""", nativeQuery = true)
-	List<Song> findAllSortByTitle();
+	List<SongEntity> findAllSortByTitle();
 
 	@Query(value = "DELETE FROM calendar_details WHERE calendar_id = :calendar_id", nativeQuery = true)
 	@Modifying
@@ -32,7 +32,7 @@ public interface SongsRepository extends JpaRepository<Song, Integer> {
 			WHERE ko.singer = :singer OR ko.singer IS NULL
 			ORDER BY marker, spanish_sort(title)
 	""", nativeQuery = true)
-	List<Song> findSongsForSinger(@Param("singer") final Integer singer);
+	List<SongEntity> findSongsForSinger(@Param("singer") final Integer singer);
 
 	@Query(value = """
 		SELECT * FROM (
@@ -44,5 +44,5 @@ public interface SongsRepository extends JpaRepository<Song, Integer> {
 		) AS foo
 		ORDER BY marker, spanish_sort(title)
 	""", nativeQuery = true)
-	List<Song> findSongsForService(@Param("service") final Integer service);
+	List<SongEntity> findSongsForService(@Param("service") final Integer service);
 }

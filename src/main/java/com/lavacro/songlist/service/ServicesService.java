@@ -1,11 +1,10 @@
 package com.lavacro.songlist.service;
 
-import com.lavacro.songlist.model.ActiveService;
+import com.lavacro.songlist.model.CalendarSummaryEntity;
 import com.lavacro.songlist.model.ServiceEntity;
-import com.lavacro.songlist.repository.ActiveServicesRepository;
+import com.lavacro.songlist.repository.CalendarSummaryRepository;
 import com.lavacro.songlist.repository.ServicesRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -13,19 +12,20 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class ServicesService {
-	private static final Logger LOGGER = LoggerFactory.getLogger(ServicesService.class);
-
 	private final ServicesRepository servicesRepository;
-	private final ActiveServicesRepository activeServicesRepository;
+	private final CalendarSummaryRepository calendarSummaryRepository;
 
-	ServicesService(ServicesRepository servicesRepository, ActiveServicesRepository activeServicesRepository) {
+	ServicesService(
+		ServicesRepository servicesRepository,
+		CalendarSummaryRepository calendarSummaryRepository) {
 		this.servicesRepository = servicesRepository;
-		this.activeServicesRepository = activeServicesRepository;
+		this.calendarSummaryRepository = calendarSummaryRepository;
 	}
 
 	public ServiceEntity getServiceById(final Integer id) {
-		LOGGER.info("getServiceById");
+		log.info("getServiceById");
 		Optional<ServiceEntity> service = servicesRepository.findById(id);
 		return service.orElse(null);
 	}
@@ -35,11 +35,19 @@ public class ServicesService {
 		return servicesRepository.findAll(sort);
 	}
 
-	public List<ActiveService> getActiveServices() {
-		return activeServicesRepository.getActiveServices();
+	public List<CalendarSummaryEntity> getActiveServices() {
+		log.info("getActiveServices");
+		return calendarSummaryRepository.getCalendarSummary();
 	}
 
-	public ActiveService getActiveServiceById(final Integer id) {
-		return activeServicesRepository.getOneService(id);
+	public CalendarSummaryEntity getActiveServiceById(final Integer id) {
+		log.info("getActiveServiceById");
+		return calendarSummaryRepository.getOneService(id);
+	}
+
+	public List<CalendarSummaryEntity> getSongSets(final Integer service, final Integer songId, final Integer leader) {
+		log.info("get song sets");
+
+		return calendarSummaryRepository.getSets(service, songId, leader);
 	}
 }

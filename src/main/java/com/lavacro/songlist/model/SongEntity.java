@@ -12,7 +12,7 @@ import jakarta.persistence.Table;
 @Setter
 @Getter
 @Table(name = "songs")
-public class Song {
+public class SongEntity {
 	@Id
 	private Integer id;
 

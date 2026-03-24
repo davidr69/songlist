@@ -4,12 +4,12 @@ server:
   port: 8444
 
 management:
-    endpoints:
-        web:
-            exposure:
-                include: health
-        health:
-            enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health
+      health:
+        enabled: true
 
 spring:
   datasource:
@@ -20,3 +20,10 @@ spring:
       minimum-idle: 3
       maximum-pool-size: 10
       idle-timeout: 10000
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        jdbc:
+          batch_size: 50
+        order_inserts: true

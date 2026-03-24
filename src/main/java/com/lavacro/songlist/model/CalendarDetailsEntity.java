@@ -1,5 +1,7 @@
 package com.lavacro.songlist.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,9 +14,21 @@ public class CalendarDetailsEntity {
 	@EmbeddedId
 	private CalendarDetailsId id;
 
-	private Integer song;
+	@JsonBackReference
+	@ManyToOne
+	@MapsId("calendarId")
+	@JoinColumn(name = "calendar_id")
+	private CalendarSummaryEntity calendar;
 
-	private Integer leader;
+	@ManyToOne
+	@JoinColumn(name = "song")
+	@JsonProperty("song")
+	private SongEntity songEntity;
+
+	@ManyToOne
+	@JoinColumn(name = "leader")
+	@JsonProperty("leader")
+	private LeaderEntity leaderEntity;
 
 	private String notes;
 

@@ -1,11 +1,9 @@
 package com.lavacro.songlist.controllers;
 
-import com.lavacro.songlist.model.ActiveService;
 import com.lavacro.songlist.model.ServiceEntity;
 
 import com.lavacro.songlist.model.SongStats;
 
-import com.lavacro.songlist.repository.ActiveServicesRepository;
 import com.lavacro.songlist.service.ReportsService;
 import com.lavacro.songlist.service.ServicesService;
 import com.lavacro.songlist.service.SingersService;
@@ -18,6 +16,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 @Controller
 @Slf4j
@@ -29,15 +30,17 @@ public class Pages {
 	private final SongsService songsService;
 	private final ReportsService reportsService;
 	private final ServicesService servicesService;
-	private final ActiveServicesRepository activeServicesRepository;
 
-	public Pages(SingersService singersService, SongsService songsService, ReportsService reportsService,
-				 ActiveServicesRepository activeServicesRepository, ServicesService servicesService) {
+	public Pages(
+			SingersService singersService,
+			SongsService songsService,
+			ReportsService reportsService,
+			ServicesService servicesService
+	) {
 		this.singersService = singersService;
 		this.songsService = songsService;
 		this.reportsService = reportsService;
 		this.servicesService = servicesService;
-		this.activeServicesRepository = activeServicesRepository;
 	}
 
 	@GetMapping(path = "/calendar")
@@ -47,7 +50,7 @@ public class Pages {
 
 	@GetMapping(path = "/makelist")
 	public String makeList(Model model, @RequestParam(value = "id") Integer id) {
-		model.addAttribute(SERVICE, activeServicesRepository.getOneService(id));
+//		model.addAttribute(SERVICE, activeServicesRepository.getOneService(id));
 		return "make_list";
 	}
 
@@ -61,13 +64,15 @@ public class Pages {
 	) {
 
 		log.info("month={}, day={}, year={}, service={}", month, day, year, serviceId);
-		ActiveService service = new ActiveService();
 		LocalDate ld = LocalDate.of(year, month, day);
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MMM d, y");
 		String formatted = ld.format(dtf);
-		service.setFormattedDate(formatted);
-		service.setId(0);
-		service.setService(servicesService.getServiceById(serviceId).getDescription());
+
+		Map<String, String> service = new HashMap<>();
+		service.put("formattedDate", formatted);
+		service.put("id", "0");
+//		service.put("serviceName", Objects.requireNonNull(servicesRepository.findById(serviceId).orElse(null)).getDescription());
+
 		model.addAttribute(SERVICE, service);
 		model.addAttribute("month", month);
 		model.addAttribute("day", day);
@@ -79,8 +84,8 @@ public class Pages {
 
 	@GetMapping(path = "/print")
 	public String print(Model model, @RequestParam("serviceId") Integer id) {
-		model.addAttribute(SONGS, songsService.selectedSongs(id));
-		model.addAttribute(SERVICE, activeServicesRepository.getOneService(id));
+//		model.addAttribute(SONGS, songsService.selectedSongs(id));
+//		model.addAttribute(SERVICE, activeServicesRepository.getOneService(id));
 		return "print";
 	}
 

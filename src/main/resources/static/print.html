@@ -5,11 +5,11 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="css/format.css" type="text/css">
 	<script type="text/javascript" src="js/code.js"></script>
-	<script type="text/javascript" src="js/print.js"></script>
-	<script type="text/javascript">
-		document.addEventListener('DOMContentLoaded', (event) => {
-			print.init();
-		});
+
+	<script type="module">
+		const printJS = './js/print.js';
+		const { default: Print } = await import(printJS);
+		globalThis.print = new Print();
 	</script>
 
 </head>

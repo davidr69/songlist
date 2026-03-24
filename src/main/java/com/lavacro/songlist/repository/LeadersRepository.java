@@ -1,6 +1,6 @@
 package com.lavacro.songlist.repository;
 
-import com.lavacro.songlist.model.Leader;
+import com.lavacro.songlist.model.LeaderEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface LeadersRepository extends JpaRepository<Leader, Integer> {
+public interface LeadersRepository extends JpaRepository<LeaderEntity, Integer> {
 	@Query(value = """
 		SELECT DISTINCT v.id, v.name
 		FROM vocalists v
@@ -17,5 +17,5 @@ public interface LeadersRepository extends JpaRepository<Leader, Integer> {
 		WHERE cs.service = :service
 		ORDER BY v.name;
 	""", nativeQuery = true)
-	List<Leader> getLeadersForService(@Param(value = "service") final Integer service);
+	List<LeaderEntity> getLeadersForService(@Param(value = "service") final Integer service);
 }

@@ -1,32 +1,31 @@
 package com.lavacro.songlist.controllers;
 
-import com.lavacro.songlist.repository.ActiveServicesRepository;
 import com.lavacro.songlist.repository.ServicesRepository;
-import com.lavacro.songlist.model.ActiveService;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.lavacro.songlist.service.ServicesService;
+import lombok.extern.slf4j.Slf4j;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 @Controller
+@Slf4j
 public class OldPages {
-	private static final Logger logger = LoggerFactory.getLogger(OldPages.class);
-
 	private final ServicesRepository servicesRepository;
-	private final ActiveServicesRepository activeServicesRepository;
+	private final ServicesService servicesService;
 
-	@Autowired
-	public OldPages(ServicesRepository servicesRepository, ActiveServicesRepository activeServicesRepository) {
+	private static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("EEE, MMM dd, yyyy");
+
+	public OldPages(ServicesRepository servicesRepository, ServicesService servicesService) {
 		this.servicesRepository = servicesRepository;
-		this.activeServicesRepository = activeServicesRepository;
+		this.servicesService = servicesService;
 	}
 
 	@GetMapping(path = {"/calendar_old"})
@@ -36,7 +35,7 @@ public class OldPages {
 
 	@GetMapping(path = {"/makelist_old"})
 	public String makeList(Model model, @RequestParam("id") Integer id) {
-		model.addAttribute("service", activeServicesRepository.getOneService(id));
+		model.addAttribute("service", servicesService.getActiveServiceById(id));
 		return "make_list_old";
 	}
 
@@ -50,14 +49,17 @@ public class OldPages {
 			@RequestParam("hour") Integer hour,
 			@RequestParam("min") Integer minute
 	) {
-		logger.info("month={}, day={}, year={}, service={}", month, day, year, serviceId);
-		ActiveService service = new ActiveService();
+		log.info("month={}, day={}, year={}, service={}", month, day, year, serviceId);
 		LocalDate ld = LocalDate.of(year, month, day);
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MMM d, y");
 		String formatted = ld.format(dtf);
-		service.setFormattedDate(formatted);
-		service.setId(0);
-		service.setService(Objects.requireNonNull(servicesRepository.findById(serviceId).orElse(null)).getDescription());
+
+		String serviceName = Objects.requireNonNull(servicesRepository.findById(serviceId).orElse(null)).getDescription();
+
+		Map<String, Object> service = new HashMap<>();
+		service.put("formattedDateTime", formatted);
+		service.put("id", "0");
+		service.put("service", Map.of("description", serviceName));
+
 		model.addAttribute("service", service);
 		model.addAttribute("month", month);
 		model.addAttribute("day", day);
