@@ -124,7 +124,7 @@ export default class SongSets {
 				date = document.createTextNode(item.formattedDateTime);
 			} else {
 				date = document.createElement('a');
-				date.setAttribute('href', item.service.video);
+				date.setAttribute('href', item.video);
 				date.setAttribute('target', '_blank');
 				let innerDate = document.createTextNode(item.formattedDateTime);
 				date.appendChild(innerDate);

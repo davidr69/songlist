@@ -40,19 +40,19 @@ Song list for <span th:text="${service.formattedDateTime} + '; ' + ${service.ser
 							<select name="songlist" size="20"></select>
 						</td>
 						<td class="shade" style="text-align: center; width: 50px">
-							<input type="button" value=" move &rArr; " onClick="globalThis.makelist.add_data();"><br /><br />
-							<input type="button" value=" &lArr; move " onClick="globalThis.makelist.del_data();">
+							<input type="button" value=" move &rArr; " onClick="makelist.add_data();"><br /><br />
+							<input type="button" value=" &lArr; move " onClick="makelist.del_data();">
 						</td>
 						<td class="shade" style="vertical-align: top; text-align: center">Selected songs:<br />
 							<select id="data" name="data" size="20"></select>
 						</td>
 						<td class="shade" style="text-align: center; width: 20px">
-							<input type="button" value="&uarr;" onClick="globalThis.makelist.move_up();"><br /><br />
-							<input type="button" value="&darr;" onClick="globalThis.makelist.move_down();">
+							<input type="button" value="&uarr;" onClick="makelist.move_up();"><br /><br />
+							<input type="button" value="&darr;" onClick="makelist.move_down();">
 						</td>
 					</tr>
 					<tr><td colspan="4" style="text-align: center" class="shade">
-						<input type="button" value=" save " onClick="globalThis.makelist.update();">
+						<input type="button" value=" save " onClick="makelist.update();">
 					</td></tr>
 				</table>
 			</td>

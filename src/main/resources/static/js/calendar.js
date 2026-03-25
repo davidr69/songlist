@@ -160,10 +160,8 @@ function get_base(classes)
 {
 	let newarr = [];
 	let fields = classes.split(" ");
-	for(let i=0; i<fields.length; i++) {
-		let field = fields[i];
-		for(let j=0; j<keep.length; j++) {
-			let item = keep[j];
+	for(let field of fields) {
+		for(let item of keep) {
 			if(field === item) {
 				newarr[newarr.length] = field;
 				break;
