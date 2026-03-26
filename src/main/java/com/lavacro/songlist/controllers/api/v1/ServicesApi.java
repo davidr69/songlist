@@ -6,6 +6,8 @@ import com.lavacro.songlist.model.ServiceEntity;
 import com.lavacro.songlist.service.ActiveServicesService;
 import com.lavacro.songlist.service.ServicesService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@Tag(name = "Services API", description = "Endpoints for retrieving service types and active services")
 @RequestMapping(value = "/api/v1/services")
 @RestController
 public class ServicesApi {
@@ -35,7 +38,9 @@ public class ServicesApi {
 
 	@Operation(summary = "Gets a service type by id")
 	@GetMapping(path = "/{id}")
-	public ResponseEntity<ServiceEntity> service(@PathVariable final Integer id) {
+	public ResponseEntity<ServiceEntity> service(
+		@Parameter(description = "The database id of a service type") @PathVariable final Integer id
+	) {
 		return new ResponseEntity<>(servicesService.getServiceById(id), HttpStatus.OK);
 	}
 
