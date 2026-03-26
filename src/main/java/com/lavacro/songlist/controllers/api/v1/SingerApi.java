@@ -20,11 +20,11 @@ public class SingerApi {
 
 	@GetMapping(path = "/songlist/{singer}")
 	public ResponseEntity<List<SongEntity>> singerSongList(@PathVariable(name = "singer") final Integer singer) {
-		return new ResponseEntity<>(singersService.singerSonglist(singer), null, HttpStatus.OK);
+		return new ResponseEntity<>(singersService.singerSonglist(singer), HttpStatus.OK);
 	}
 
 	@GetMapping(path = "/list")
 	public ResponseEntity<List<LeaderEntity>> getLeaders() {
-		return new ResponseEntity<>(singersService.getLeaders(), null, HttpStatus.OK);
+		return new ResponseEntity<>(singersService.getLeaders(), HttpStatus.OK);
 	}
 }
