@@ -30,12 +30,12 @@ public class SongsApi {
 
 	@GetMapping
 	public ResponseEntity<List<SongEntity>> allSongs() {
-		return new ResponseEntity<>(songsService.getAllSongs(), null, HttpStatus.OK);
+		return new ResponseEntity<>(songsService.getAllSongs(), HttpStatus.OK);
 	}
 
 	@GetMapping(value = "/languages")
 	public ResponseEntity<List<LanguageEntity>> getLanguages() {
-		return new ResponseEntity<>(languagesService.getAllLanguages(), null, HttpStatus.OK);
+		return new ResponseEntity<>(languagesService.getAllLanguages(), HttpStatus.OK);
 	}
 
 	@GetMapping(value = "/service/{service}")
@@ -53,7 +53,7 @@ public class SongsApi {
 			@RequestParam(value = "leader") Integer leader
 	) {
 
-		return new ResponseEntity<>(servicesService.getSongSets(service, song, leader), null, HttpStatus.OK);
+		return new ResponseEntity<>(servicesService.getSongSets(service, song, leader), HttpStatus.OK);
 	}
 
 	@PutMapping(path = "/list", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -65,7 +65,7 @@ public class SongsApi {
 		GenericResponse resp = new GenericResponse();
 		songsService.updateSongs(songlist, service);
 		resp.setSuccess(true);
-		return new ResponseEntity<>(resp, null, HttpStatus.OK);
+		return new ResponseEntity<>(resp, HttpStatus.OK);
 	}
 
 	@PostMapping(path = "/list", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -88,7 +88,7 @@ public class SongsApi {
 			resp.setSuccess(false);
 			resp.setMessage(e.getMessage());
 		}
-		return new ResponseEntity<>(resp, null, HttpStatus.OK);
+		return new ResponseEntity<>(resp, HttpStatus.OK);
 	}
 
 }
