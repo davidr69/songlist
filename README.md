@@ -4,6 +4,6 @@
 - [x] use new vault-retrieve (1.0.4)
 - [ ] add actual documentation
 - [x] update Java version (25)
-- [x] update Spring Boot version?
+- [x] update Spring Boot to 4.0.4
 - [ ] convert nginx ingress to Gateway API
 - [ ] add RBAC

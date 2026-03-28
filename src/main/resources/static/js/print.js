@@ -59,7 +59,7 @@ export default class Print {
 				td = document.createElement('td');
 				td.setAttribute('class', 'list');
 				td.setAttribute('style', 'text-align: right');
-				td.appendChild(document.createTextNode(tuple.tempo == null ? '' : tuple.tempo));
+				td.appendChild(document.createTextNode(tuple.song.tempo == null ? '' : tuple.song.tempo));
 				tr.appendChild(td);
 			}
 			songSet.appendChild(tr);
