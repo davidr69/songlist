@@ -67,7 +67,7 @@ spec:
           mountPath: "/var/tmp/vault"
       containers:
       - name: songlist
-        image: "registry:5000/songlist:1.23.2"
+        image: "registry:5000/songlist:1.23.4"
         imagePullPolicy: IfNotPresent
         envFrom:
         - configMapRef:

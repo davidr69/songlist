@@ -69,7 +69,7 @@ export default class Print {
 
 	#draw_meta = (data) => {
 		const theDate = data.mydate.substring(0, 10);
-		document.title = `${data.service.description} - ${theDate} @ ${data.service.serviceTime}`;
+		document.title = `${data.service.description} - ${theDate} @ ${data.serviceTime}`;
 		document.getElementById("serviceName").innerHTML = data.service.description;
 		document.getElementById("serviceDate").innerHTML = data.formattedDateTime;
 		if(data.leader != null) {
