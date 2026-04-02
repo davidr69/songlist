@@ -30,7 +30,7 @@ dependencies {
 }
 
 group = 'com.lavacro'
-version = '1.23.2'
+version = '1.23.4'
 description = 'songlist'
 
 java {

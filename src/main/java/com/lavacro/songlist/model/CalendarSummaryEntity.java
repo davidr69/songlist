@@ -57,6 +57,6 @@ public class CalendarSummaryEntity {
 	@Transient
 	public String getFormattedDateTime() {
 		return mydate == null || service.getServiceTime() == null ? "" :
-			mydate.format(dowFormatter) + " " + service.getServiceTime().format(timeFormatter);
+			mydate.format(dowFormatter) + " " + serviceTime.format(timeFormatter);
 	}
 }
